@@ -32,7 +32,7 @@ def count_pixels(image_path, json_file):
 
 
 # Parcourir le dossier contenant les fichiers PNG
-folder_path = "/Users/maxime.pariente/Downloads/small_dataset/semantic/677d5238-e36b-41a4-bd38-e85a0f95f285_result/ENSTA_Paris/envoie_playement/Anthony-Blr/left"
+folder_path = "/home/poc2014/small_dataset/677d5238-e36b-41a4-bd38-e85a0f95f285_result/ENSTA Paris/envoie_playement/Anthony-Blr/Left"
 json_path = "t_1621535652_3.png.json"
 png_files = [file for file in os.listdir(folder_path) if file.endswith('.png')]
 
