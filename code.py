@@ -2,11 +2,15 @@
 import os
 import json
 from collections import defaultdict
+import torch
+from torchvision import transforms
 from PIL import Image
 
 def count_pixels(image_path, json_file):
-    # Charger l'image
+    # Charger l'image en utilisant PyTorch
     image = Image.open(image_path)
+    image = transforms.ToTensor()(image)
+    image = image.cuda()  # Transférer l'image sur le GPU
 
     # Charger le fichier JSON des associations de couleur et de classe
     with open(json_file) as file:
@@ -16,11 +20,11 @@ def count_pixels(image_path, json_file):
     class_counts = defaultdict(int)
 
     # Parcourir chaque pixel de l'image
-    width, height = image.size
+    width, height = image.size(2), image.size(1)
     for x in range(width):
         for y in range(height):
-            pixel = image.getpixel((x, y))
-            hex_color = '#{:02x}{:02x}{:02x}'.format(*pixel)
+            pixel = image[:, y, x].tolist()
+            hex_color = '#{:02x}{:02x}{:02x}'.format(int(pixel[0]*255), int(pixel[1]*255), int(pixel[2]*255))
 
             # Vérifier si le code couleur a une classe associée dans le fichier JSON
             if hex_color in color_classes:
@@ -36,19 +40,20 @@ folder_path = "/home/poc2014/small_dataset/677d5238-e36b-41a4-bd38-e85a0f95f285_
 json_path = "t_1621535652_3.png.json"
 png_files = [file for file in os.listdir(folder_path) if file.endswith('.png')]
 
-L=[]
+L = []
 # Parcourir chaque fichier PNG et compter les pixels par couleur
 for png_file in png_files:
-    X=[]
+    X = []
     png_file_path = os.path.join(folder_path, png_file)
-    result = count_pixels(png_file_path, json_path)
+    with torch.cuda.device(0):  # Utiliser le GPU pour le traitement
+        result = count_pixels(png_file_path, json_path)
 
     # Afficher le nombre de pixels par couleur pour chaque fichier PNG
     #print(f"Fichier : {png_file}")
     X.append(f"Fichier : {png_file}")
     for class_name, count in result.items():
         #print(f"{class_name}: {count} pixels")
-        X.append(f"{class_name}: {count} pixels")   
+        X.append(f"{class_name}: {count} pixels")
     L.append(X)
     #print()
     #print(L)
