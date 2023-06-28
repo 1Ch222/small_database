@@ -51,5 +51,5 @@ for png_file in png_files:
         X.append(f"{class_name}: {count} pixels")   
     L.append(X)
     #print()
-    print(L)
-#print(L)
+    #print(L)
+print(L)
