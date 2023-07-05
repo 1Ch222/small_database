@@ -10,9 +10,6 @@ def count_pixels(image_path, color_classes):
     # Créer un dictionnaire par défaut pour stocker le nombre de pixels par classe
     class_counts = defaultdict(int)
 
-    # Convertir le dictionnaire color_classes pour inverser les clés et les valeurs
-    color_classes_inverse = {v: k for k, v in color_classes.items()}
-
     # Obtenir les pixels de l'image
     pixels = image.load()
 
@@ -24,20 +21,18 @@ def count_pixels(image_path, color_classes):
 
             # Vérifier si le pixel est une valeur en niveaux de gris
             if isinstance(pixel, int):
-                # Utiliser la valeur du pixel comme clé
-                if pixel in color_classes_inverse:
-                    class_name = color_classes_inverse[pixel]
-                    if class_name in color_classes:
-                        class_counts[class_name] += 1
+                # Utiliser la valeur du pixel comme clé pour récupérer la classe correspondante
+                if pixel in color_classes:
+                    class_name = color_classes[pixel]
+                    class_counts[class_name] += 1
             else:
                 # Convertir le tuple de pixels en une chaîne hexadécimale
                 hex_color = '#{:02x}{:02x}{:02x}'.format(*pixel)
 
                 # Vérifier si le code couleur a une classe associée dans le fichier JSON
-                if hex_color in color_classes_inverse:
-                    class_name = color_classes_inverse[hex_color]
-                    if class_name in color_classes:
-                        class_counts[class_name] += 1
+                if hex_color in color_classes:
+                    class_name = color_classes[hex_color]
+                    class_counts[class_name] += 1
 
     # Retourner le dictionnaire des comptes de pixels par classe
     return class_counts
@@ -53,16 +48,17 @@ with open(json_path) as file:
     color_classes = json.load(file)
 
 # Ouvrir le fichier de sortie en mode écriture
-with open("pixcnt_Bièvres.txt", 'w') as f:
+output_file = "pixcnt_Bièvres.txt"
+with open(output_file, 'w') as f:
     # Parcourir chaque fichier PNG et compter les pixels par couleur
     for png_file in png_files:
         png_file_path = os.path.join(folder_path, png_file)
         result = count_pixels(png_file_path, color_classes)
 
-        # Écrire le nombre de pixels par couleur dans le fichier de sortie
+        # Écrire le nombre de pixels par classe dans le fichier de sortie
         f.write(f"Fichier : {png_file}\n")
         for class_name, count in result.items():
             f.write(f"{class_name}: {count} pixels\n")
         f.write('\n')
 
-print("Le traitement est terminé. Les résultats ont été enregistrés dans le fichier 'pixcnt_Bièvres.txt'.")
+print(f"Le traitement est terminé. Les résultats ont été enregistrés dans le fichier '{output_file}'.")
