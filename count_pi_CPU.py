@@ -3,13 +3,9 @@ import json
 from collections import defaultdict
 from PIL import Image
 
-def count_pixels(image_path, json_file):
+def count_pixels(image_path, color_classes):
     # Charger l'image
     image = Image.open(image_path)
-
-    # Charger le fichier JSON des associations de couleur et de classe
-    with open(json_file) as file:
-        color_classes = json.load(file)
 
     # Créer un dictionnaire par défaut pour stocker le nombre de pixels par classe
     class_counts = defaultdict(int)
@@ -50,12 +46,12 @@ folder_path = "/home/poc2014/dataset/temp/INFRA10/semantic_segmentation_truth/tr
 json_path = "t_1621535652_3.png.json"
 png_files = [file for file in os.listdir(folder_path) if file.endswith('.png') and not file.endswith('labelIds.png')]
 
+# Charger le fichier JSON des associations de couleur et de classe une seule fois
+with open(json_path) as file:
+    color_classes = json.load(file)
+
 # Ouvrir le fichier de sortie en mode écriture
 with open("pixcnt_Bièvres.txt", 'w') as f:
-    # Charger le fichier JSON des associations de couleur et de classe une seule fois
-    with open(json_path) as file:
-        color_classes = json.load(file)
-
     # Parcourir chaque fichier PNG et compter les pixels par couleur
     for png_file in png_files:
         png_file_path = os.path.join(folder_path, png_file)
