@@ -1,5 +1,3 @@
-
-
 import os
 import json
 from collections import defaultdict
@@ -16,29 +14,29 @@ def count_pixels(image_path, json_file):
     # Créer un dictionnaire par défaut pour stocker le nombre de pixels par classe
     class_counts = defaultdict(int)
 
- # Parcourir chaque pixel de l'image
-width, height = image.size
-for x in range(width):
-    for y in range(height):
-        pixel = image.getpixel((x, y))
-        
-        # Vérifier si le pixel est une valeur en niveaux de gris
-        if isinstance(pixel, int):
-            # Utiliser la valeur du pixel comme clé
-            if pixel in color_classes:
-                class_name = color_classes[pixel]
-                class_counts[class_name] += 1
-        else:
-            # Convertir le tuple de pixels en une chaîne hexadécimale
-            hex_color = '#{:02x}{:02x}{:02x}'.format(*pixel)
+    # Parcourir chaque pixel de l'image
+    width, height = image.size
+    for x in range(width):
+        for y in range(height):
+            pixel = image.getpixel((x, y))
             
-            # Vérifier si le code couleur a une classe associée dans le fichier JSON
-            if hex_color in color_classes:
-                class_name = color_classes[hex_color]
-                class_counts[class_name] += 1
+            # Vérifier si le pixel est une valeur en niveaux de gris
+            if isinstance(pixel, int):
+                # Utiliser la valeur du pixel comme clé
+                if pixel in color_classes:
+                    class_name = color_classes[pixel]
+                    class_counts[class_name] += 1
+            else:
+                # Convertir le tuple de pixels en une chaîne hexadécimale
+                hex_color = '#{:02x}{:02x}{:02x}'.format(*pixel)
+                
+                # Vérifier si le code couleur a une classe associée dans le fichier JSON
+                if hex_color in color_classes:
+                    class_name = color_classes[hex_color]
+                    class_counts[class_name] += 1
 
     # Retourner le dictionnaire des comptes de pixels par classe
-return class_counts
+    return class_counts
 
 
 # Parcourir le dossier contenant les fichiers PNG
@@ -60,5 +58,5 @@ with open("pixcnt_Bièvres.txt", 'w') as f:
             f.write(f"{class_name}: {count} pixels\n")
         f.write('\n')
 
-print("Le traitement est terminé. Les résultats ont été enregistrés dans le fichier 'pixel_counts.txt'.")
+print("Le traitement est terminé. Les résultats ont été enregistrés dans le fichier 'pixcnt_Bièvres.txt'.")
 
