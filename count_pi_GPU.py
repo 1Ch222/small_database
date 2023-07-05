@@ -35,9 +35,9 @@ def count_pixels(image_path, json_file):
 
 
 # Parcourir le dossier contenant les fichiers PNG
-folder_path = "/home/poc2014/small_dataset/677d5238-e36b-41a4-bd38-e85a0f95f285_result/ENSTA Paris/envoie_playement/Anthony-Blr/Left"
+folder_path = "/home/poc2014/dataset/temp/INFRA10/semantic_segmentation_truth/train/Bièvres"
 json_path = "t_1621535652_3.png.json"
-output_file = "pixel_counts.txt"  # Fichier de sortie pour enregistrer les résultats
+output_file = "pixcnt_Bièvres.txt"  # Fichier de sortie pour enregistrer les résultats
 
 png_files = [file for file in os.listdir(folder_path) if file.endswith('.png')]
 
