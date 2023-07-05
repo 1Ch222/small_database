@@ -27,7 +27,8 @@ def count_pixels(image_path, color_classes):
                 # Utiliser la valeur du pixel comme clé
                 if pixel in color_classes_inverse:
                     class_name = color_classes_inverse[pixel]
-                    class_counts[class_name] += 1
+                    if class_name in color_classes:
+                        class_counts[class_name] += 1
             else:
                 # Convertir le tuple de pixels en une chaîne hexadécimale
                 hex_color = '#{:02x}{:02x}{:02x}'.format(*pixel)
@@ -35,7 +36,8 @@ def count_pixels(image_path, color_classes):
                 # Vérifier si le code couleur a une classe associée dans le fichier JSON
                 if hex_color in color_classes_inverse:
                     class_name = color_classes_inverse[hex_color]
-                    class_counts[class_name] += 1
+                    if class_name in color_classes:
+                        class_counts[class_name] += 1
 
     # Retourner le dictionnaire des comptes de pixels par classe
     return class_counts
