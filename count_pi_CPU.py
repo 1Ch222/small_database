@@ -16,13 +16,22 @@ def count_pixels(image_path, json_file):
     # Créer un dictionnaire par défaut pour stocker le nombre de pixels par classe
     class_counts = defaultdict(int)
 
-    # Parcourir chaque pixel de l'image
-    width, height = image.size
-    for x in range(width):
-        for y in range(height):
-            pixel = image.getpixel((x, y))
+ # Parcourir chaque pixel de l'image
+width, height = image.size
+for x in range(width):
+    for y in range(height):
+        pixel = image.getpixel((x, y))
+        
+        # Vérifier si le pixel est une valeur en niveaux de gris
+        if isinstance(pixel, int):
+            # Utiliser la valeur du pixel comme clé
+            if pixel in color_classes:
+                class_name = color_classes[pixel]
+                class_counts[class_name] += 1
+        else:
+            # Convertir le tuple de pixels en une chaîne hexadécimale
             hex_color = '#{:02x}{:02x}{:02x}'.format(*pixel)
-
+            
             # Vérifier si le code couleur a une classe associée dans le fichier JSON
             if hex_color in color_classes:
                 class_name = color_classes[hex_color]
