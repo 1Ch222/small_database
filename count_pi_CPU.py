@@ -38,7 +38,7 @@ for x in range(width):
                 class_counts[class_name] += 1
 
     # Retourner le dictionnaire des comptes de pixels par classe
-    return class_counts
+return class_counts
 
 
 # Parcourir le dossier contenant les fichiers PNG
