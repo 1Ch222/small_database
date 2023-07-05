@@ -40,7 +40,7 @@ json_path = "t_1621535652_3.png.json"
 png_files = [file for file in os.listdir(folder_path) if file.endswith('.png')]
 
 # Ouvrir le fichier de sortie en mode écriture
-with open("pixcnt_bièvres.txt", 'w') as f:
+with open("pixcnt_Bièvres.txt", 'w') as f:
     # Parcourir chaque fichier PNG et compter les pixels par couleur
     for png_file in png_files:
         X = []
