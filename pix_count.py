@@ -35,12 +35,12 @@ def count_pixels(image_path, json_file):
 
 
 # Parcourir le dossier contenant les fichiers PNG
-folder_path = "/home/poc2014/dataset/temp/INFRA10/semantic_segmentation_truth/train/Bièvres"
+folder_path = "/home/poc2014/dataset/temp/INFRA10/semantic_segmentation_truth/train/Anthony-Blr"
 json_path = "t_1621535652_3.png.json"
 png_files = [file for file in os.listdir(folder_path) if file.endswith('.png')]
 
 # Ouvrir le fichier de sortie en mode écriture
-with open("pixcnt_Bièvres.txt", 'w') as f:
+with open("pixcnt_Anthony-Blr.txt", 'w') as f:
     # Parcourir chaque fichier PNG et compter les pixels par couleur
     for png_file in png_files:
         X = []
